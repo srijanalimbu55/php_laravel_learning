@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-  $data = Expense::all();
-  return view('welcome', ['expenses' => $data]);
+  return view('welcome', ['expenses' => Expense::all()]);
 });
+Route::get('/create', [ExpenseController::class, 'displayCreateForm']);
+Route::get('/edit/{id}', function ($id) {
+  $data =  Expense::find($id);
 
-Route::get('/create', [ExpenseController::class, 'displayCreateForm'])->name('expense.create');
+  return view('edit', ['data' => $data]);
+});
 Route::post('/submit-form', function (Request $req) {
-  // form bata data lyawo
   $title = $req->title;
   $amount = $req->amount;
   $category = $req->category;
@@ -21,8 +23,25 @@ Route::post('/submit-form', function (Request $req) {
   $exp->title = $title;
   $exp->amount = $amount;
   $exp->category = $category;
-  //POST REQUEST
   $exp->save();
+
+  return redirect('/');
+});
+
+Route::post('/update/{id}', function ($id, Request $req) {
+  $data =  Expense::find($id);
+  $data->title = $req->title;
+  $data->amount = $req->amount;
+  $data->category = $req->category;
+  $data->update();
+
+  return redirect('/');
+});
+
+
+Route::get('/delete/{id}', function ($id) {
+  $data =  Expense::find($id);
+  $data->delete();
 
   return redirect('/');
 });

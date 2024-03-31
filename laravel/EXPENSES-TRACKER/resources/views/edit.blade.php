@@ -12,24 +12,25 @@
 <body>
   <main class="container-md">
     <header>
-      <h1>Create new Expenses!</h1>
+      <h1>Edit Expense!</h1>
     </header>
     <section>
       <div class="card">
         <div class="card-body">
-          <form>
+          <form method="post" action="/update/{{$data['id']}}">
+            @csrf()
             <div class="mb-3">
               <label class="form-label">Expenses title</label>
-              <input type="text" class="form-control" name="title" value="test">
+              <input type="text" class="form-control" name="title" value="{{$data['title']}}">
 
             </div>
             <div class="mb-3">
               <label class="form-label">Amount</label>
-              <input type="number" class="form-control" name="amount" value="100">
+              <input type="number" class="form-control" name="amount" value="{{$data['amount']}}">
             </div>
             <div class="mb-3">
               <label class="form-label">Category</label>
-              <input type="text" class="form-control" name="category" value="food">
+              <input type="text" class="form-control" name="category" value="{{$data['category']}}">
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
