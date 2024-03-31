@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
+    // Just display page
     public function index()
     {
-        return view('welcome');
+        return view("welcome");
     }
 
     public function displayCreateForm()
@@ -20,12 +21,4 @@ class ExpenseController extends Controller
     {
         return view('edit');
     }
-
-    // Do some database work here!
-    public function store()
-    {
-        dd('test');
-    }
 }
-
-

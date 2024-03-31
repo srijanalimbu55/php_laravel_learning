@@ -1,10 +1,28 @@
 <?php
 
 use App\Http\Controllers\ExpenseController;
+use App\Models\Expense;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ExpenseController::class, 'index'])->name('expense.home');
-Route::get('/create', [ExpenseController::class, 'displayCreateForm'])->name('expense.create');
-Route::post('/store', [ExpenseController::class, 'store'])->name('expense.store');
-Route::get('/edit', [ExpenseController::class, 'displayEditForm'])->name('expense.edit');
+Route::get('/', function () {
+  $data = Expense::all();
+  return view('welcome', ['expenses' => $data]);
+});
 
+Route::get('/create', [ExpenseController::class, 'displayCreateForm'])->name('expense.create');
+Route::post('/submit-form', function (Request $req) {
+  // form bata data lyawo
+  $title = $req->title;
+  $amount = $req->amount;
+  $category = $req->category;
+
+  $exp = new Expense();
+  $exp->title = $title;
+  $exp->amount = $amount;
+  $exp->category = $category;
+  //POST REQUEST
+  $exp->save();
+
+  return redirect('/');
+});
